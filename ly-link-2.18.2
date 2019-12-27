@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Set variable for edited args
+NEWARGS=()
+
+# This removes /private from the temp folder directory
+# This will make sure that it will match the tmp file
+# if it starts with /var or /private
+NEWDIR=${PWD/\/private/}
+
+for ARG in $@
+do
+    # If the temp folder location is in the arg, remove it.
+    # We need to do this as docker expects a relative path inside the
+    # container and not the absolute outside the container
+    if [[ $ARG =~ $NEWDIR ]]
+    then
+            NEWARGS+=(${ARG/$NEWDIR/"."})
+    else
+            NEWARGS+=($ARG)
+    fi
+done
+
+# Run Lilypond in the container with the new options.
+/usr/local/bin/docker run --rm -v "$HOME/.lily:$HOME/.lily" -v "$PWD:/app" -w /app ly2_18_2 lilypond "${NEWARGS[@]}"
