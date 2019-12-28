@@ -22,4 +22,4 @@ do
 done
 
 # Run Lilypond in the container with the new options.
-/usr/local/bin/docker run --rm -v "$HOME/.lily:$HOME/.lily" -v "$PWD:/app" -w /app ly2_18_2 lilypond "${NEWARGS[@]}"
+/usr/local/bin/docker run --rm -v "$HOME/.lily:$HOME/.lily" -v "$PWD:/app" -w /app shevvek/lilypond2_18_2 lilypond "${NEWARGS[@]}"
